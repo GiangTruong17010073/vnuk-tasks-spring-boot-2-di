@@ -18,14 +18,14 @@
 	    			<label>Description</label>
 	    		</div>
 	    		
-	        	<div class="my-margin-top-19">
-	    			<textarea th:field="*{description}" rows="5" cols="100"></textarea>
+	        	<div class="my-margin-top-4">
+	    			<textarea th:field="*{description}" rows="4"></textarea>
 	        	</div>
 	        	
 	        	<div
-	        		th:if="${#fields.hasErrors('description')}"
-	        		th:errors="*{description}"
-	        		class="my-margin-top-19"
+	        		th:if="${error_field_description}"
+	        		th:text="${error_field_description}"
+	        		class="my-error-field"
 	        	>
 	        	</div>
 	        	

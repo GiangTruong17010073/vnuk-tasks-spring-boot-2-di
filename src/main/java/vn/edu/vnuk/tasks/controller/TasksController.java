@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -20,10 +21,13 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import vn.edu.vnuk.tasks.dao.TaskDao;
 import vn.edu.vnuk.tasks.model.Task;
@@ -55,8 +59,14 @@ public class TasksController {
     
     
     @RequestMapping("/tasks/new")
-    public String add(Task task, Model model){
-    	model.addAttribute("template", "task/new");
+    public String add(Task task, Model model, @ModelAttribute("fieldErrors") ArrayList<FieldError> fieldErrors){
+    	
+    	for(FieldError fieldError : fieldErrors) {
+    		model.addAttribute(String.format("error_field_%s", fieldError.getField()), fieldError.getDefaultMessage());
+    	}
+    	
+        model.addAttribute("template", "task/new");
+        System.out.println(model);
         return "layout";
     }
     
@@ -70,10 +80,11 @@ public class TasksController {
     
     
     @RequestMapping(value="/tasks", method=RequestMethod.POST)
-    public String create(@Valid Task task, BindingResult result, ServletRequest request) throws SQLException{
+    public String create(@Valid Task task, BindingResult bindingResult, ServletRequest request, RedirectAttributes redirectAttributes) throws SQLException{
         
-        if (result.hasFieldErrors("description")) {
-            return "task/new";
+        if (bindingResult.hasErrors()) {
+        	redirectAttributes.addFlashAttribute("fieldErrors", bindingResult.getAllErrors());
+            return "redirect:/tasks/new";
         }
         
         new TaskDao((Connection) request.getAttribute("myConnection")).create(task);

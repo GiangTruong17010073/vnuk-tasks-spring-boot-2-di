@@ -16,6 +16,9 @@ td, th {
 }
 
 
+input, textarea { width: 100%; }
+
+
 a:not(.btn), a:visited:not(.btn), a:hover:not(.btn) {
 	color: #787;
 	text-decoration: none;
@@ -27,6 +30,8 @@ a:not(.btn), a:visited:not(.btn), a:hover:not(.btn) {
 
 .my-tr-gold, .my-tr-red { color: #111; }
 .my-tr-gold a:not(.btn), .my-tr-red a:not(.btn) { color: #fff; }
+
+.my-margin-top-4 { margin-top: 4px; }
 
 .my-padding-top-19 { padding-top: 19px; }
 .my-padding-bottom-19 { padding-bottom: 19px; }
@@ -48,5 +53,13 @@ a:not(.btn), a:visited:not(.btn), a:hover:not(.btn) {
 .my-margin-top-40 { margin-top: 40px; }
 .my-margin-bottom-40 { margin-bottom: 40px; }
 
-.my-border-top { border-top: 1px solid #777}
-.my-border-bottom { border-bottom: 2px solid #777}
+.my-border-top { border-top: 1px solid #777; }
+.my-border-bottom { border-bottom: 2px solid #777; }
+
+.my-error-field {
+	padding: 10px;
+	margin-top: 4px;
+	background-color: #f00;
+	color: #fff;
+	font-weight: bold;
+}
