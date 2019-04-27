@@ -152,7 +152,7 @@ public class TasksController {
     
     //  delete with ajax
     @RequestMapping(value="/tasks/{id}", method = RequestMethod.DELETE)
-    public void delete(Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
+    public void delete(@PathVariable("id") Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
     	new TaskDao((Connection) request.getAttribute("myConnection")).delete(id);
         response.setStatus(200);
     }

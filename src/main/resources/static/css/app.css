@@ -64,3 +64,17 @@ a:not(.btn), a:visited:not(.btn), a:hover:not(.btn) {
 	font-weight: bold;
 	border-radius: 4px;
 }
+
+.my-notice-green, .my-notice-red {
+	padding: 10px;
+	margin-bottom: 19px;
+	color: #fff;
+	border-radius: 4px;
+}
+
+.my-notice-green { background-color: #060; }
+
+.my-notice-red {
+	background-color: #f00;
+	font-weight: bold;
+}
