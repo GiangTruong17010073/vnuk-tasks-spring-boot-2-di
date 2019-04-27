@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,10 +47,10 @@ public class TasksController {
     
     
     @RequestMapping("tasks/{id}")
-    public String show(@RequestParam Map<String, String> params, Model model, ServletRequest request) throws SQLException{
-    	Long id = Long.parseLong(params.get("id").toString());
+    public String show(@PathVariable("id") Long id, Model model, ServletRequest request) throws SQLException{
         model.addAttribute("task", new TaskDao((Connection) request.getAttribute("myConnection")).read(id));
-        return "task/show";
+        model.addAttribute("template", "task/show");
+        return "layout";
     }
     
     

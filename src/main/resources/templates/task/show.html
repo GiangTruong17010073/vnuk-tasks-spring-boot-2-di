@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+	<title th:fragment="title" th:text="'Task #' + ${task.id}"></title>
+	
+	
+	<section th:fragment="content">
+	
+		<h3 class="my-margin-bottom-28">
+			<em th:text="'Task #' + ${task.id}"></em>
+		</h3>
+		
+		<table>
+			<tr>
+				<td>Description</td>
+				<td th:text="${task.description}" class="text-justify"></td>
+			</tr>
+			
+			<tr>
+				<td>Status</td>
+				<td th:text="${task.complete ? 'Complete' : 'To be done'}"></td>
+			</tr>
+			
+			<tr th:if="${task.complete}">
+				<td>Date of completion</td>
+				<td th:text="${task.description}"></td>
+			</tr>
+			
+		</table>
+	
+	</section>
+	
+</html>

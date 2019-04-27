@@ -21,6 +21,7 @@ public class VnukTasksSpringBoot2Application {
 	    filterRegistrationBean.setFilter(new ConnectionFilter());
 	    filterRegistrationBean.setOrder(2);
 	    filterRegistrationBean.addUrlPatterns("/tasks");
+	    filterRegistrationBean.addUrlPatterns("/tasks/*");
 	    return filterRegistrationBean;
 	}
 
