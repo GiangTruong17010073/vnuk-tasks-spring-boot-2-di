@@ -38,7 +38,7 @@ public class TasksController {
 //  @RequestMapping(value={"", "/", "tasks"})
     
 	
-	@RequestMapping("tasks")
+	@RequestMapping("/tasks")
     public String index(Model model, ServletRequest request) throws SQLException{
         model.addAttribute("tasks", new TaskDao((Connection) request.getAttribute("myConnection")).read());
         model.addAttribute("template", "task/index");
@@ -46,7 +46,7 @@ public class TasksController {
     }
     
     
-    @RequestMapping("tasks/{id}")
+    @RequestMapping("/tasks/{id}")
     public String show(@PathVariable("id") Long id, Model model, ServletRequest request) throws SQLException{
         model.addAttribute("task", new TaskDao((Connection) request.getAttribute("myConnection")).read(id));
         model.addAttribute("template", "task/show");
@@ -54,13 +54,14 @@ public class TasksController {
     }
     
     
-    @RequestMapping("tasks/new")
-    public String add(){
-        return "task/new";
+    @RequestMapping("/tasks/new")
+    public String add(Task task, Model model){
+    	model.addAttribute("template", "task/new");
+        return "layout";
     }
     
     
-    @RequestMapping("tasks/{id}/edit")
+    @RequestMapping("/tasks/{id}/edit")
     public String edit(@RequestParam Map<String, String> params, Model model, ServletRequest request) throws SQLException{
     	Long id = Long.parseLong(params.get("id").toString());
         model.addAttribute("task", new TaskDao((Connection) request.getAttribute("myConnection")).read(id));
@@ -68,7 +69,7 @@ public class TasksController {
     }
     
     
-    @RequestMapping(value="tasks", method=RequestMethod.POST)
+    @RequestMapping(value="/tasks", method=RequestMethod.POST)
     public String create(@Valid Task task, BindingResult result, ServletRequest request) throws SQLException{
         
         if (result.hasFieldErrors("description")) {
@@ -80,7 +81,7 @@ public class TasksController {
     }
     
     
-    @RequestMapping(value="tasks/{id}", method=RequestMethod.PATCH)
+    @RequestMapping(value="/tasks/{id}", method=RequestMethod.PATCH)
     public String update(@Valid Task task, BindingResult result, ServletRequest request) throws SQLException{
         
         if (result.hasFieldErrors("description")) {
@@ -114,29 +115,15 @@ public class TasksController {
     }
     
     
-    //  DELETE WITHOUT AJAX
-    
-    /*
-    
-    @RequestMapping(value = "deleteTask/{id}", method = RequestMethod.GET)
-    @ResponseBody 
-    public RedirectView delete(@PathVariable("id") int id) throws SQLException{
-        new TaskDao().delete(id);
-        return new RedirectView("../tasks");
-    }
-
-    */
-    
-    
     //  DELETE WITH AJAX
-    @RequestMapping(value="tasks/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/tasks/{id}", method = RequestMethod.DELETE)
     public void delete(Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
     	new TaskDao((Connection) request.getAttribute("myConnection")).delete(id);
         response.setStatus(200);
     }
     
     
-    @RequestMapping(value="tasks/{id}/complete", method = RequestMethod.PATCH)
+    @RequestMapping(value="/tasks/{id}/complete", method = RequestMethod.PATCH)
     public void complete(Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
     	new TaskDao((Connection) request.getAttribute("myConnection")).complete(id);
         response.setStatus(200);
