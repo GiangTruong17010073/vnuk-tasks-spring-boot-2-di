@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+	<title th:fragment="title">List of all the tasks</title>
+	
+	<section th:fragment="content">
+		<table>
+	        <thead>
+	            <tr>
+	                <th></th>
+	                <th>Id</th>
+	                <th>Description</th>
+	                <th>Status</th>
+	                <th>Date of completion</th>
+	            </tr>
+	        </thead>
+	
+	        <tbody>
+	
+                <tr th:each="task : ${tasks}">
+                    <td>
+                        <button
+                        	th:unless="${task.complete}"
+                        	th:value="${task.id}"
+                            type="button"
+                            class="btn btn-xs btn-success my-task-to-complete" 
+                            data-toggle="tooltip" 
+                            title="Complete task" 
+                            data-placement="bottom"
+                        >
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                        
+                        <a th:href="'tasks/' + ${task.id} + '/edit'" class="btn btn-xs btn-primary" 
+                           data-toggle="tooltip" title="Edit task" data-placement="bottom">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                           
+                           
+                        <!--    DELETING WITH AJAX   -->
+
+                        <button
+                        	type="button"
+                            class="btn btn-xs btn-danger my-task-to-delete" 
+                            th:value="${task.id}"
+                            data-toggle="tooltip" 
+                            title="Delete task" 
+                            data-placement="bottom">
+                            
+                        	    <i class="fa fa-trash" aria-hidden="true"></i>
+                        
+                        </button>
+
+                    </td>
+                    
+                    <td th:text="${task.id}"></td>
+                    <td th:text="${task.description}"></td>
+                    <td th:id="'status-of-task-' + ${task.id}" th:text="${task.complete ? 'Complete' : 'To be done'}"></td>
+
+                    <td id="date-of-achievement-for-task-${task.id}">
+                    </td>
+                </tr>
+	
+	        </tbody>
+	    </table>    
+    
+	</section>
+	
+</html>

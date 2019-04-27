@@ -38,7 +38,9 @@ a:not(.btn), a:visited:not(.btn), a:hover:not(.btn) {
 .my-padding-bottom-40 { padding-bottom: 40px; }
 
 .my-margin-top-19 { margin-top: 19px; }
+.my-margin-right-19 { margin-right: 19px; }
 .my-margin-bottom-19 { margin-bottom: 19px; }
+.my-margin-left-19 { margin-left: 19px; }
 
 .my-margin-top-28 { margin-top: 28px; }
 .my-margin-bottom-28 { margin-bottom: 28px; }

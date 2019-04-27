@@ -41,7 +41,6 @@ public class TasksController {
     public String index(Model model, ServletRequest request) throws SQLException{
         model.addAttribute("tasks", new TaskDao((Connection) request.getAttribute("myConnection")).read());
         model.addAttribute("template", "task/index");
-        model.addAttribute("toto", "titi");
         return "layout";
     }
     
