@@ -30,7 +30,7 @@
 		
 		<div class="my-margin-top-19">
 	
-		    <a th:href="@{/tasks}" class="btn btn-sm btn-light my-margin-right-19">
+		    <a th:href="@{/tasks}" th:class="'btn btn-sm btn-light' + ${ task.complete ? '' : ' my-margin-right-19' }">
 				<span class="my-margin-right-19">
 					<i class="far fa-arrow-alt-circle-left" aria-hidden="true"></i>
 				</span>
@@ -39,7 +39,11 @@
 		    </a>
 	
 	
-		    <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-sm btn-primary my-margin-right-19">
+		    <a
+		    	th:unless="${task.complete}"
+                th:href="@{/tasks/{id}/edit(id=${task.id})}"
+		    	class="btn btn-sm btn-primary"
+		    >
 				<span class="my-margin-right-19">
 					<i class="far fa-edit" aria-hidden="true"></i>
 				</span>

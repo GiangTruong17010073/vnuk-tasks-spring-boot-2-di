@@ -34,12 +34,20 @@
                     <td>
                         
                         <!-- Show task -->
-                        <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-sm btn-light" 
-                           data-toggle="tooltip" title="Show task" data-placement="bottom">
+                        <a 	
+                        	th:href="@{/tasks/{id}(id=${task.id})}"
+                        	class="btn btn-sm btn-light" 
+                           	data-toggle="tooltip"
+                           	title="Show task"
+                           	data-placement="bottom"
+                        >
+                        
                             <i class="far fa-eye" aria-hidden="true"></i>
+                            
                         </a>
                         
                         
+                        <!-- Complete task -->
                         <button
                         	th:unless="${task.complete}"
                         	th:value="${task.id}"
@@ -49,17 +57,28 @@
                             title="Complete task" 
                             data-placement="bottom"
                         >
+                        
                             <i class="far fa-check-square" aria-hidden="true"></i>
+                            
                         </button>
                         
-                        <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-sm btn-primary" 
-                           data-toggle="tooltip" title="Edit task" data-placement="bottom">
+                        
+                        <!-- Edit task -->
+                        <a
+                        	th:unless="${task.complete}"
+                        	th:href="@{/tasks/{id}/edit(id=${task.id})}"
+                        	class="btn btn-sm btn-primary" 
+                           	data-toggle="tooltip"
+                           	title="Edit task"
+                           	data-placement="bottom"
+                        >
+                        
                             <i class="far fa-edit" aria-hidden="true"></i>
+                            
                         </a>
                            
                            
-                        <!--    DELETING WITH AJAX   -->
-
+                        <!-- Delete task -->
                         <button
                         	type="button"
                             class="btn btn-sm btn-danger my-task-to-delete" 
