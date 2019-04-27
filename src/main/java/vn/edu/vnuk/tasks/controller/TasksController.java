@@ -7,12 +7,7 @@ package vn.edu.vnuk.tasks.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,71 +57,100 @@ public class TasksController {
     public String add(Task task, Model model, @ModelAttribute("fieldErrors") ArrayList<FieldError> fieldErrors){
     	
     	for(FieldError fieldError : fieldErrors) {
-    		model.addAttribute(String.format("error_field_%s", fieldError.getField()), fieldError.getDefaultMessage());
+    		model.addAttribute(
+    				String.format("%sFieldError", fieldError.getField()),
+    				fieldError.getDefaultMessage()
+    			);
     	}
     	
         model.addAttribute("template", "task/new");
-        System.out.println(model);
         return "layout";
     }
     
     
     @RequestMapping("/tasks/{id}/edit")
-    public String edit(@RequestParam Map<String, String> params, Model model, ServletRequest request) throws SQLException{
-    	Long id = Long.parseLong(params.get("id").toString());
-        model.addAttribute("task", new TaskDao((Connection) request.getAttribute("myConnection")).read(id));
-        return "task/edit";
+    public String edit(
+    		
+		@RequestParam(value="backToShow", defaultValue="false") Boolean backToShow,
+		@PathVariable("id") Long id,
+		Task task,
+		Model model,
+		ServletRequest request,
+		@ModelAttribute("fieldErrors") ArrayList<FieldError> fieldErrors
+		
+	) throws SQLException{
+    	
+    	
+    	task = new TaskDao((Connection) request.getAttribute("myConnection")).read(id);
+    	
+    	for(FieldError fieldError : fieldErrors) {
+    		model.addAttribute(
+    				String.format("%sFieldError", fieldError.getField()),
+    				fieldError.getDefaultMessage()
+    			);
+    	}
+    	
+    	
+    	model.addAttribute("backToShow", backToShow);
+    	model.addAttribute("urlCompletion", backToShow ? String.format("/%s", id) : "");
+    	model.addAttribute("task", task);
+        model.addAttribute("template", "task/edit");
+
+        return "layout";
+    
+        
     }
     
     
     @RequestMapping(value="/tasks", method=RequestMethod.POST)
-    public String create(@Valid Task task, BindingResult bindingResult, ServletRequest request, RedirectAttributes redirectAttributes) throws SQLException{
+    public String create(
+		
+    	@Valid Task task,
+    	BindingResult bindingResult,
+    	ServletRequest request,
+    	RedirectAttributes redirectAttributes
+    
+    ) throws SQLException{
         
+    	
         if (bindingResult.hasErrors()) {
         	redirectAttributes.addFlashAttribute("fieldErrors", bindingResult.getAllErrors());
             return "redirect:/tasks/new";
         }
         
         new TaskDao((Connection) request.getAttribute("myConnection")).create(task);
-        return "redirect:tasks";
+        return "redirect:/tasks";
+        
+        
     }
     
     
     @RequestMapping(value="/tasks/{id}", method=RequestMethod.PATCH)
-    public String update(@Valid Task task, BindingResult result, ServletRequest request) throws SQLException{
-        
-        if (result.hasFieldErrors("description")) {
-            return "task/edit";
-        }
-        
-        
-        
-        Calendar dateOfCompletion = null;
-        
-        
-        if(task.getDateInStringFormat() != null) {
-        	
-    		// 	converting string to data
-    		try {
-    			Date date = new SimpleDateFormat("dd/MM/yyyy").parse(task.getDateInStringFormat());
-    			dateOfCompletion = Calendar.getInstance();
-    			dateOfCompletion.setTime(date);
-    		} 
+    public String update(
     		
-    		catch (ParseException e) {
-    			System.out.println("Error while converting date");
-    			return null;
-    		}
-        }
+    		@RequestParam(value="backToShow", defaultValue="false") Boolean backToShow,
+    		@PathVariable("id") Long id,
+    		@Valid Task task,
+    		BindingResult bindingResult,
+    		ServletRequest request,
+    		RedirectAttributes redirectAttributes
+    		
+    	) throws SQLException{
+    	
         
-        task.setDateOfCompletion(dateOfCompletion);
+    	if (bindingResult.hasErrors()) {
+        	redirectAttributes.addFlashAttribute("fieldErrors", bindingResult.getAllErrors());
+            return String.format("redirect:/tasks/%s/edit", id);
+        }
         
         new TaskDao((Connection) request.getAttribute("myConnection")).update(task);
-        return String.format("redirect:tasks/%s", task.getId());
+        return backToShow ? String.format("redirect:/tasks/%s", id) : "redirect:/tasks";
+        
+        
     }
     
     
-    //  DELETE WITH AJAX
+    //  delete with ajax
     @RequestMapping(value="/tasks/{id}", method = RequestMethod.DELETE)
     public void delete(Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
     	new TaskDao((Connection) request.getAttribute("myConnection")).delete(id);
@@ -134,6 +158,7 @@ public class TasksController {
     }
     
     
+    //  complete with ajax
     @RequestMapping(value="/tasks/{id}/complete", method = RequestMethod.PATCH)
     public void complete(Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
     	new TaskDao((Connection) request.getAttribute("myConnection")).complete(id);

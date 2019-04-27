@@ -41,7 +41,7 @@
 	
 		    <a
 		    	th:unless="${task.complete}"
-                th:href="@{/tasks/{id}/edit(id=${task.id})}"
+                th:href="@{/tasks/{id}/edit(id=${task.id}, backToShow=true)}"
 		    	class="btn btn-sm btn-primary"
 		    >
 				<span class="my-margin-right-19">

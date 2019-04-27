@@ -62,4 +62,5 @@ a:not(.btn), a:visited:not(.btn), a:hover:not(.btn) {
 	background-color: #f00;
 	color: #fff;
 	font-weight: bold;
+	border-radius: 4px;
 }
