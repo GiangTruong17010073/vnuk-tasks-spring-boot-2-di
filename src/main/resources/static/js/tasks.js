@@ -6,15 +6,14 @@ $(function(){
 
         var $task = $(this);
         var taskId = $task.val();
+        var $tr = $('tr[data-task-id="' + taskId + '"]');
+        
         
         $.ajax({
            
-            type: "POST",
-            url: "completeTask",
-            
-            data: {
-                id: taskId
-            },
+            type: "PATCH",
+            url: "tasks/" + taskId + "/complete",
+
             
             success: function() {
                 
@@ -23,19 +22,24 @@ $(function(){
                         + "/" + ("0" + (date.getMonth() + 1)).slice(-2) 
                         + "/" + date.getFullYear();
 
-                $task.hide();
-                $("#status-of-task-" + taskId).text("Complete");
-                $("#date-of-achievement-for-task-" + taskId).text(today);
-
-                $('#my-notice').text('Task ' + taskId + ' has successfully been completed.')
-                        .addClass('my-notice-green')
-                        .removeClass('my-notice-red');
+                $task.remove();
+                $tr.find('.my-task-to-edit').remove();
+                $tr.find(".task-status").text("Complete");
+                $("task-date-of-achievement" ).text(today);
+                
+                $('#my-notice').addClass('my-notice-green').removeClass("my-no-line-height");
+                $('#my-notice i').addClass('far fa-smile');
+                $('#my-notice span:last-child').text("Task #" + taskId + " has successfully been completed.");
+                
             },
             
+            
             error: function() {
-                $('#my-notice').text('Something went wrong with completion of task ' + taskId)
-                        .removeClass('my-notice-green')
-                        .addClass('my-notice-red');
+            	
+                $('#my-notice').addClass('my-notice-red').removeClass("my-no-line-height");
+                $('#my-notice i').addClass('fas fa-dizzy');
+                $('#my-notice span:last-child').text("Something went wrong with completion of task #" + taskId);
+            
             }
             
         });
@@ -60,21 +64,21 @@ $(function(){
             
             success: function() {
                 
-                $task.closest('tr').remove();
+                $('tr[data-task-id="' + taskId + '"]').remove();
                 
-                $('#my-notice').addClass('my-notice-green');
+                $('#my-notice').addClass('my-notice-green').removeClass("my-no-line-height");
                 $('#my-notice i').addClass('far fa-smile');
-                $('#my-notice span:last-child').text("Task " + taskId + " has successfully been deleted.");
+                $('#my-notice span:last-child').text("Task #" + taskId + " has successfully been deleted.");
                     
-                    
-
             },
             
             
             error: function() {
-                $('#my-notice').addClass('my-notice-red');
+            	
+                $('#my-notice').addClass('my-notice-red').removeClass("my-no-line-height");
                 $('#my-notice i').addClass('fas fa-dizzy');
-                $('#my-notice span:last-child').text("Something went wrong with deletion of task " + taskId);
+                $('#my-notice span:last-child').text("Something went wrong with deletion of task #" + taskId);
+            
             }
             
         });

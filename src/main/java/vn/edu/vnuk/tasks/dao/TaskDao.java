@@ -117,12 +117,19 @@ public class TaskDao {
     
     //  UPDATE
     public void update(Task task) throws SQLException {
-        String sqlQuery = "update tasks set description=? where id=?";
+        String sqlQuery = "update tasks set description=?, is_complete=?, date_of_completion=? where id=?";
         
         try {
             PreparedStatement statement = connection.prepareStatement(sqlQuery);
             statement.setString(1, task.getDescription());
-            statement.setLong(2, task.getId());
+            statement.setBoolean(2, task.isComplete());
+            
+            statement.setDate(
+            		3,
+            		task.getDateOfCompletion() == null ? null : new Date(task.getDateOfCompletion().getTimeInMillis())
+            	);
+            
+            statement.setLong(4, task.getId());
             statement.execute();
             statement.close();
             

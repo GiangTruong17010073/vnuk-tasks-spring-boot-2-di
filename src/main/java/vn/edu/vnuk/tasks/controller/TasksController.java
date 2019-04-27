@@ -160,7 +160,7 @@ public class TasksController {
     
     //  complete with ajax
     @RequestMapping(value="/tasks/{id}/complete", method = RequestMethod.PATCH)
-    public void complete(Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
+    public void complete(@PathVariable("id") Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
     	new TaskDao((Connection) request.getAttribute("myConnection")).complete(id);
         response.setStatus(200);
     }
