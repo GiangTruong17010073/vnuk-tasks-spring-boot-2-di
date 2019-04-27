@@ -107,7 +107,7 @@
                     <td th:text="${task.id}"></td>
                     <td th:text="${task.description}"></td>
                     <td class="task-status" th:text="${task.complete ? 'Complete' : 'To be done'}"></td>
-                    <td class="task-date-of-completion"></td>
+                    <td class="task-date-of-completion" th:text="${#dates.format(task.dateOfCompletion, 'dd MMMM yyyy')}"></td>
                 </tr>
 	
 	        </tbody>

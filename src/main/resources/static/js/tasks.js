@@ -17,15 +17,11 @@ $(function(){
             
             success: function() {
                 
-                var date = new Date();
-                var today = ("0" + date.getDate()).slice(-2) 
-                        + "/" + ("0" + (date.getMonth() + 1)).slice(-2) 
-                        + "/" + date.getFullYear();
-
                 $task.remove();
+                
                 $tr.find('.my-task-to-edit').remove();
                 $tr.find(".task-status").text("Complete");
-                $("task-date-of-achievement" ).text(today);
+                $tr.find(".task-date-of-completion").text($.format.date(new Date(), 'dd MMMM yyyy'));
                 
                 $('#my-notice').addClass('my-notice-green').removeClass("my-no-line-height");
                 $('#my-notice i').addClass('far fa-smile');

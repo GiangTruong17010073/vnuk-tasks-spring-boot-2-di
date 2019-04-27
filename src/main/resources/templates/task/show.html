@@ -22,7 +22,7 @@
 			
 			<tr th:if="${task.complete}">
 				<td>Date of completion</td>
-				<td th:text="${task.description}"></td>
+				<td th:text="${#dates.format(task.dateOfCompletion, 'dd MMMM yyyy')}"></td>
 			</tr>
 			
 		</table>
