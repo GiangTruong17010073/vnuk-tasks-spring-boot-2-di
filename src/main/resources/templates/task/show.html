@@ -26,6 +26,28 @@
 			</tr>
 			
 		</table>
+		
+		
+		<div class="my-margin-top-19">
+	
+		    <a th:href="@{/tasks}" class="btn btn-sm btn-light my-margin-right-19">
+				<span class="my-margin-right-19">
+					<i class="far fa-arrow-alt-circle-left" aria-hidden="true"></i>
+				</span>
+				
+		    	<span>Back to the list of tasks</span>
+		    </a>
+	
+	
+		    <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-sm btn-primary my-margin-right-19">
+				<span class="my-margin-right-19">
+					<i class="far fa-edit" aria-hidden="true"></i>
+				</span>
+				
+		    	<span>Edit task #<span th:text="${task.id}"></span></span>
+		    </a>
+		    
+		</div>
 	
 	</section>
 	

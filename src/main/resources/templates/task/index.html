@@ -34,7 +34,7 @@
                     <td>
                         
                         <!-- Show task -->
-                        <a th:href="'tasks/' + ${task.id}" class="btn btn-sm btn-light" 
+                        <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-sm btn-light" 
                            data-toggle="tooltip" title="Show task" data-placement="bottom">
                             <i class="far fa-eye" aria-hidden="true"></i>
                         </a>
@@ -52,7 +52,7 @@
                             <i class="far fa-check-square" aria-hidden="true"></i>
                         </button>
                         
-                        <a th:href="'tasks/' + ${task.id} + '/edit'" class="btn btn-sm btn-primary" 
+                        <a th:href="@{/tasks/{id}/edit(id=${task.id})}" class="btn btn-sm btn-primary" 
                            data-toggle="tooltip" title="Edit task" data-placement="bottom">
                             <i class="far fa-edit" aria-hidden="true"></i>
                         </a>
@@ -66,9 +66,10 @@
                             th:value="${task.id}"
                             data-toggle="tooltip" 
                             title="Delete task" 
-                            data-placement="bottom">
+                            data-placement="bottom"
+                        >
                             
-                        	    <i class="far fa-trash-alt" aria-hidden="true"></i>
+                        	<i class="far fa-trash-alt" aria-hidden="true"></i>
                         
                         </button>
 
