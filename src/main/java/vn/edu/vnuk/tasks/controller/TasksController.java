@@ -41,7 +41,7 @@ public class TasksController {
     public String index(Model model, ServletRequest request) throws SQLException{
         model.addAttribute("tasks", new TaskDao((Connection) request.getAttribute("myConnection")).read());
         model.addAttribute("template", "task/index");
-        return "layout";
+        return "_layout";
     }
     
     
@@ -49,7 +49,7 @@ public class TasksController {
     public String show(@PathVariable("id") Long id, Model model, ServletRequest request) throws SQLException{
         model.addAttribute("task", new TaskDao((Connection) request.getAttribute("myConnection")).read(id));
         model.addAttribute("template", "task/show");
-        return "layout";
+        return "_layout";
     }
     
     
@@ -64,7 +64,7 @@ public class TasksController {
     	}
     	
         model.addAttribute("template", "task/new");
-        return "layout";
+        return "_layout";
     }
     
     
@@ -96,7 +96,7 @@ public class TasksController {
     	model.addAttribute("task", task);
         model.addAttribute("template", "task/edit");
 
-        return "layout";
+        return "_layout";
     
         
     }

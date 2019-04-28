@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+
+<html xmlns:th="http://www.thymeleaf.org">
+    
+    <head>
+        <meta
+        	charset="utf-8" 
+            name="viewport" 
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        
+        <title th:replace="${template} :: title"></title>
+        
+        <th:block th:include="~{ _layout/_stylesheets :: links }"></th:block>
+    </head>
+    
+
+    <body>
+        
+        <header th:replace="~{ _layout/_header :: header }"></header>
+		
+		
+		<section th:include="~{ ${template} :: content }" class="my-padding-top-28 my-padding-bottom-40">
+       	</section>
+        
+        
+        <footer th:replace="~{ _layout/_footer :: footer }"></footer>
+		
+		<th:block th:include="~{ _layout/_scripts :: scripts }"></th:block>
+
+    </body>
+
+</html>
