@@ -2,8 +2,32 @@
 	
 	<title th:fragment="title">List of all the tasks</title>
 	
+	
 	<section th:fragment="content">
-		<table>
+	
+		<h3 class="my-margin-bottom-28">
+			<em>List of all tasks</em>
+		</h3>
+	
+	    <a href="tasks/new" class="btn btn-sm btn-success my-margin-bottom-19">
+			<span class="my-margin-right-19">
+				<i class="fa fa-plus" aria-hidden="true"></i>
+			</span>
+			
+	    	<span>Create a new task</span>
+	    </a>
+	
+	
+	    <div id="my-notice" class="my-no-line-height">
+	        <span class="my-margin-right-19">
+				<i aria-hidden="true"></i>
+			</span>
+			
+	    	<span></span>
+		</div>
+		
+       
+       	<table>
 	        <thead>
 	            <tr>
 	                <th></th>
@@ -16,37 +40,65 @@
 	
 	        <tbody>
 	
-                <tr th:each="task : ${tasks}">
+                <tr th:each="task : ${tasks}" th:attr="data-task-id=${task.id}">
                     <td>
+                        
+                        <!-- Show task -->
+                        <a 	
+                        	th:href="@{/tasks/{id}(id=${task.id})}"
+                        	class="btn btn-sm btn-light" 
+                           	data-toggle="tooltip"
+                           	title="Show task"
+                           	data-placement="bottom"
+                        >
+                        
+                            <i class="far fa-eye" aria-hidden="true"></i>
+                            
+                        </a>
+                        
+                        
+                        <!-- Complete task -->
                         <button
                         	th:unless="${task.complete}"
                         	th:value="${task.id}"
                             type="button"
-                            class="btn btn-xs btn-success my-task-to-complete" 
+                            class="btn btn-sm btn-success my-task-to-complete" 
                             data-toggle="tooltip" 
                             title="Complete task" 
                             data-placement="bottom"
                         >
-                            <i class="fa fa-check" aria-hidden="true"></i>
+                        
+                            <i class="far fa-check-square" aria-hidden="true"></i>
+                            
                         </button>
                         
-                        <a th:href="'tasks/' + ${task.id} + '/edit'" class="btn btn-xs btn-primary" 
-                           data-toggle="tooltip" title="Edit task" data-placement="bottom">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        
+                        <!-- Edit task -->
+                        <a
+                        	th:unless="${task.complete}"
+                        	th:href="@{/tasks/{id}/edit(id=${task.id})}"
+                        	class="btn btn-sm btn-primary my-task-to-edit" 
+                           	data-toggle="tooltip"
+                           	title="Edit task"
+                           	data-placement="bottom"
+                        >
+                        
+                            <i class="far fa-edit" aria-hidden="true"></i>
+                            
                         </a>
                            
                            
-                        <!--    DELETING WITH AJAX   -->
-
+                        <!-- Delete task -->
                         <button
                         	type="button"
-                            class="btn btn-xs btn-danger my-task-to-delete" 
+                            class="btn btn-sm btn-danger my-task-to-delete" 
                             th:value="${task.id}"
                             data-toggle="tooltip" 
                             title="Delete task" 
-                            data-placement="bottom">
+                            data-placement="bottom"
+                        >
                             
-                        	    <i class="fa fa-trash" aria-hidden="true"></i>
+                        	<i class="far fa-trash-alt" aria-hidden="true"></i>
                         
                         </button>
 
@@ -54,10 +106,8 @@
                     
                     <td th:text="${task.id}"></td>
                     <td th:text="${task.description}"></td>
-                    <td th:id="'status-of-task-' + ${task.id}" th:text="${task.complete ? 'Complete' : 'To be done'}"></td>
-
-                    <td id="date-of-achievement-for-task-${task.id}">
-                    </td>
+                    <td class="task-status" th:text="${task.complete ? 'Complete' : 'To be done'}"></td>
+                    <td class="task-date-of-completion" th:text="${#dates.format(task.dateOfCompletion, 'dd MMMM yyyy')}"></td>
                 </tr>
 	
 	        </tbody>

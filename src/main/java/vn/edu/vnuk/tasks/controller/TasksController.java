@@ -34,7 +34,10 @@ import vn.edu.vnuk.tasks.model.Task;
 @Controller
 public class TasksController {
 	
-//  @RequestMapping(value={"", "/", "tasks"})
+	@RequestMapping(value={"", "/"})
+	public String home() {
+		return "redirect:/tasks";
+	}
     
 	
 	@RequestMapping("/tasks")

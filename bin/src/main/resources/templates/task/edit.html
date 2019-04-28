@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+	<title th:fragment="title" th:text="'Edit task #' + ${task.id}"></title>
+	
+	
+	<section th:fragment="content">
+	
+		<h3 class="my-margin-bottom-28">
+			<em th:text="'Edit task #' + ${task.id}"></em>
+		</h3>
+		
+		
+	    <form
+	    	th:replace="
+	    			~{
+	    				/task/_form
+	    				
+	    				::
+	    				
+	    				form(
+	    					@{/tasks/{id}(id=${task.id}, backToShow=${backToShow})},
+	    					'patch',
+	    					@{/tasks{urlCompletion}(urlCompletion=${urlCompletion})}
+	    				)
+	    			}
+	    		"
+	    >
+	    </form>
+	
+	</section>
+	
+</html>

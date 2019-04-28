@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+	<title th:fragment="title">Create a new task</title>
+	
+	
+	<section th:fragment="content">
+	
+		<h3 class="my-margin-bottom-28">
+			<em>Create a new task</em>
+		</h3>
+		
+		<form th:replace="~{/task/_form :: form(@{/tasks}, 'post', @{/tasks})}"></form>
+
+	</section>
+	
+</html>
