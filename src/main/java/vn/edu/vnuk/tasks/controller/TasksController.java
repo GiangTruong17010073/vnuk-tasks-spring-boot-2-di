@@ -5,7 +5,6 @@
  */
 package vn.edu.vnuk.tasks.controller;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +34,13 @@ import vn.edu.vnuk.tasks.model.Task;
 @Controller
 public class TasksController {
 	
+	private TaskDao dao;
+	
+	@Autowired
+	public void setTaskDao(TaskDao dao) {
+		this.dao = dao;
+	}
+	
 	@RequestMapping(value={"", "/"})
 	public String home() {
 		return "redirect:/tasks";
@@ -42,7 +49,7 @@ public class TasksController {
 	
 	@RequestMapping("/tasks")
     public String index(Model model, ServletRequest request) throws SQLException{
-        model.addAttribute("tasks", new TaskDao((Connection) request.getAttribute("myConnection")).read());
+        model.addAttribute("tasks", dao.read());
         model.addAttribute("template", "task/index");
         return "_layout";
     }
@@ -50,7 +57,7 @@ public class TasksController {
     
     @RequestMapping("/tasks/{id}")
     public String show(@PathVariable("id") Long id, Model model, ServletRequest request) throws SQLException{
-        model.addAttribute("task", new TaskDao((Connection) request.getAttribute("myConnection")).read(id));
+        model.addAttribute("task", dao.read(id));
         model.addAttribute("template", "task/show");
         return "_layout";
     }
@@ -84,7 +91,7 @@ public class TasksController {
 	) throws SQLException{
     	
     	
-    	task = new TaskDao((Connection) request.getAttribute("myConnection")).read(id);
+    	task = dao.read(id);
     	
     	for(FieldError fieldError : fieldErrors) {
     		model.addAttribute(
@@ -121,7 +128,7 @@ public class TasksController {
             return "redirect:/tasks/new";
         }
         
-        new TaskDao((Connection) request.getAttribute("myConnection")).create(task);
+        dao.create(task);
         return "redirect:/tasks";
         
         
@@ -146,7 +153,7 @@ public class TasksController {
             return String.format("redirect:/tasks/%s/edit", id);
         }
         
-        new TaskDao((Connection) request.getAttribute("myConnection")).update(task);
+        dao.update(task);
         return backToShow ? String.format("redirect:/tasks/%s", id) : "redirect:/tasks";
         
         
@@ -156,7 +163,7 @@ public class TasksController {
     //  delete with ajax
     @RequestMapping(value="/tasks/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
-    	new TaskDao((Connection) request.getAttribute("myConnection")).delete(id);
+    	dao.delete(id);
         response.setStatus(200);
     }
     
@@ -164,7 +171,7 @@ public class TasksController {
     //  complete with ajax
     @RequestMapping(value="/tasks/{id}/complete", method = RequestMethod.PATCH)
     public void complete(@PathVariable("id") Long id, ServletRequest request, HttpServletResponse response) throws SQLException {
-    	new TaskDao((Connection) request.getAttribute("myConnection")).complete(id);
+    	dao.complete(id);
         response.setStatus(200);
     }
     

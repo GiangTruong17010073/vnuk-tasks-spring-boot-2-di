@@ -5,7 +5,7 @@
  */
 package vn.edu.vnuk.tasks.model;
 
-import java.util.Calendar;
+import java.sql.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,7 +26,7 @@ public class Task {
     private boolean isComplete;
     
     @DateTimeFormat(pattern="dd/MM/yyyy")
-    private Calendar dateOfCompletion;
+    private Date dateOfCompletion;
     
     private String dateInStringFormat;
 
@@ -54,11 +54,11 @@ public class Task {
         this.isComplete = isComplete;
     }
 
-    public Calendar getDateOfCompletion() {
+    public Date getDateOfCompletion() {
         return dateOfCompletion;
     }
 
-    public void setDateOfCompletion(Calendar dateOfCompletion) {
+    public void setDateOfCompletion(Date dateOfCompletion) {
         this.dateOfCompletion = dateOfCompletion;
     }
 
