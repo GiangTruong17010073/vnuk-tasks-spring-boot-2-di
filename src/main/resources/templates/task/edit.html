@@ -10,57 +10,22 @@
 		</h3>
 		
 		
-	    <form th:action="@{/tasks/{id}(id=${task.id}, backToShow=${backToShow})}" th:object="${task}" th:method="patch">
-
-	    	<div>
-	    		
-	    		<div>
-	    			<label>Description</label>
-	    		</div>
-	    		
-	        	<div class="my-margin-top-4">
-	    			<textarea th:field="*{description}" rows="4"></textarea>
-	        	</div>
-	        	
-	        	<div th:if="${descriptionFieldError}" class="my-error-field">
-	        		<span class="my-margin-right-19">
-						<i class="fas fa-minus-circle" aria-hidden="true"></i>
-					</span>
-					
-			    	<span th:text="${descriptionFieldError}"></span>
-	        	</div>
-	        	
-	        </div>
-	        
-	        
-	        <div class="my-margin-top-19">
-	
-			    <a
-			    	th:href="@{/tasks{urlCompletion}(urlCompletion=${urlCompletion})}"
-			    	class="btn btn-sm btn-light my-margin-right-19"
-			    >
-					<span class="my-margin-right-19">
-						<i class="fas fa-times" aria-hidden="true"></i>
-					</span>
-					
-			    	<span>Cancel</span>
-			    </a>
-		
-		
-			    <button type="submit" class="btn btn-sm btn-success">
-					<span class="my-margin-right-19">
-						<i class="fas fa-check-circle" aria-hidden="true"></i>
-					</span>
-					
-			    	<span>Save</span>
-			    </button>
-			    
-			</div>
-		
+	    <form
+	    	th:replace="
+	    			~{
+	    				/task/_form
+	    				
+	    				::
+	    				
+	    				form(
+	    					@{/tasks/{id}(id=${task.id}, backToShow=${backToShow})},
+	    					'patch',
+	    					@{/tasks{urlCompletion}(urlCompletion=${urlCompletion})}
+	    				)
+	    			}
+	    		"
+	    >
 	    </form>
-		
-		
-
 	
 	</section>
 	
