@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -53,7 +54,10 @@ public class TaskDao {
 
         try {
         
-        	return this.jdbcTemplate.queryForList("SELECT * FROM tasks", Task.class);
+        	return this.jdbcTemplate.query(
+        			"SELECT * FROM tasks",
+        			new BeanPropertyRowMapper<Task>(Task.class)
+    			);
 
         	
         } catch (Exception e) {
