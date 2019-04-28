@@ -77,10 +77,11 @@ public class TaskDao {
     public Task read(Long id) throws SQLException{
         
     	return this.jdbcTemplate.queryForObject(
-        		"SELECT * FROM tasks where id = ?",
+    			"SELECT * FROM tasks where id = ?",
         		new Object[] {id},
-        		Task.class
-    		);
+        		new BeanPropertyRowMapper<Task>(Task.class)
+        	);
+    	
     
     }  
 
